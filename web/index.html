@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title></title>
+
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="keywords" content="chatty, github, communications, framework, open source">
+    <meta name="description" content="A chat application able to deploy and reuse in any environment.">
+    <meta name="copyright" content="Likd Corporations">
+
+    <meta name="revised" content="Wednesdays, March 4th, 2015, 12:11 am">
+    <meta name="classification" content="Development">
+    <meta name="reply-to" content="substituteuser@hotmail.com">
+    <meta name="pagename" content="">
+    <meta name="application-name" content="">
+
+    <link rel="stylesheet" href="/style/default.css" type="text/css">
+    <link rel="stylesheet" href="/style/reset.css" type="text/css">
+</head>
+
+<body onload="optimize(document.forms.account)">
+    <h1>Chatty</h1>
+    <h2>The smart communications application.</h2>
+    <p>Why would I bother filling out useless things like this if the program isn't even done yet?</p>
+    <h2>Who are you?</h2>
+    <form action="/username" method="post" name="account">
+        <label for="username">username</label>
+        <input type="text" name=username placeholder="Moderator"
+            pattern="^[A-Za-z][A-Za-z0-9_]{1,15}$" minlength=2>
+
+        <label for="password">password</label>
+        <input type="password" name=passphrase placeholder="[Access Denied]"
+            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" minlength=6>
+
+        <input type="submit" name="subscribe" value="Sign in">
+    </form>
+    <script type="text/javascript" src="/script/framework.js"></script>
+</body>
+
+</html>
