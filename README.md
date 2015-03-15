@@ -1,16 +1,30 @@
 # chatty
-A chat application able to deploy and reuse in any environment. 
+A chat application able to deploy and reuse in any environment.
 
-# past
-The project originated from a node.js http hosting application with a hand coded nosql database written from scratch.
-Unfortunately, since I didn't even know what nosql was let alone optimizations at the time of original writing, the program was terribly slow.
-It was being hosted on like a windows server 2003 with reboots as I was logged in at school on one machine handling 4 clients while the host only had 512MB of ram and a dual core cure2duo at like 1.2GHZ or something rediculous.
-As people would try to type, the server would lag out and spam the same message anywhere from 1-6 times, anyways it sucked.
+#goals
+- fast
+- portable
+- beautiful
+- elegant
 
-# present
-I have some experience coding and know the modern paradigms, so I decided to revive the project and keep some of the cool features like the quick user account implimentation and keywork highlighting so we can still have fun with greentext.
-The goal is to have the project as highly portable and fast on mediocre hardware as possible. 
-A full featured, module based project is on it's way!
+#fast
+Any old computer can hadle it to some extent.
+Always be responsive, remove features before adding processing time.
+Automatically scaling configuration along with provided settings.
 
-# future
-options: --keep-alive --max-connections --history --disconnect --theme --auto-update --delay --administrator
+#portable
+This means modules must be either cut or packaged.
+Can be distributed all together and modified easily for compatibility.
+Lightweight, anything more than a few kilobytes is too much.
+Very debuggable source code and client server relation is retained.
+
+#beautiful
+Source code must be short, readable, and appealing to the eye.
+Retain "politically correct" coding paradigms.
+The final product must be equally as beautiful as the code.
+
+#elegant
+Easy to use by an every day user.
+Easy to use by a beginner.
+Easy to use by an expert.
+Simple, vanilla, concise.

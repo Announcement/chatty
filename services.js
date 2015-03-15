@@ -1,189 +1,90 @@
 //Services
+var mods, programs;
+
+mods = ["net", "http", "fs", "url", "querystring", "fs"];
+
+programs = ["telnet", "httpd", "database", /*"smtp"*/
+           "eventsource", "rest", "cookies", "fileserver",
+           "feed", "website", "pages", "apps", "live"];
 
 
-web.reserve =  function(service) {}
+mods.forEach(function(value) {
+  global[value] = require(value);
+});
+var translate = require("./translate.js");
+programs.forEach(function(value) {
+  global[value] = null;
+});
 
-web.request = function(request, response){
-  var client, data, complete;
+telnet = function() {
+  var server = net.createServer();
 
+  server.on("connection", translate.telnet);
 
-  //Server Side Events
-  if (request.headers.accept &&
-      request.headers.accept == "text/event-stream")
-  {
-    eventStream(request, response);
-  }
-  else
-  {
-    client = new Client(complete, request);
-    data = web.response(response);
-  }
+  server.listen(ports.telnet || translate.port.bind(server, "telnet"));
+};
+httpd = function() {
+  var server = http.createServer();
 
-  complete = function() {
-    data.file("index.html");
-  };
-}
+  server.on("request", translate.httpd);
 
-function Client(callback, request) {
-  var $get, $post, $cookie, $rest,
-      method, gatherk;
-
-  method = request.method.toLowerCase()
-
-  uri = url.parse(request.url)
-
-  $get = qs.parse(uri.query)
-
-
-  $cookie = cookies(request.storage.cookie)
-
-  $rest = restify(uri)
-
-  $post = {};
-
-  this.get = $get;
-  this.rest = $rest;
-  this.post = $post;
-  this.cookie = $cookie;
-  this.request = request;
-
-  (method == "post" && gather.call(this) || callback.call(this));
-
-  return this;
-
-  gather = function() {
-    var content;
-
-    content = "";
-
-    request.on("data", data);
-    request.on("end", end);
-
-    function data() {
-      content += arguments[0] || "";
-      if (content > 1e6)
-          request.connection.destroy();
-    }
-    function end() {
-      $post = qs.parse(content);
-
-      this.post = $post;
-
-      callback.call(this);
-    }
-  }
-}
-function cookies(data) {
-  var chef, baked, sale;
-
-  sale = {}
-
-  baked = data.split(";").map(chef)
-
-  chef = function(dough) {
-    var sheet, name, value;
-
-    sheet = dough.split("=");
-    name = sheet.shift().trim();
-    value = decodeURIComponent((sheet[0]||"").trim());
-
-    sale[name] = value;
-  }
-
-  return sale;
-}
-web.response = function(response) {
-  var data;
-  function header() {
-    this.data = {"Content-Type": "text/plain"};
-    this.code = 200;
-    function content(ctype) {
-      data["Content-Type"] = ctype;
-
-      return this;
-    }
-    function cookie(name, value) {
-      var cook;
-
-      cook = name +"="+ encodeURIComponent(value.trim());
-
-      if (this.data.hasOwnProperty("Set-Cookie"))
-        data["Set-Cookie"] += "&" + cook;
+  server.listen(ports.httpd || translate.port.bind(server, "httpd"));
+};
+database = function() {
+  /* TODO:
+  phase 1) Save, load
+  phase 2) Compress, decompress, package, unpackage
+  phase 3) clean, dump, query+, sort, indexing
+  phase 4) optimize
+   */
+  function table(column) {
+    var data = [];
+    this.column = column;
+    function insert(row) {
+      if (row.data.length == column.data.length)
+        data.push(row.data);
       else
-        data["Set-Cookie"] = cook;
-
-      return this;
+        return null;
+      return column.data;
     }
-    function error(code) {
-      var ei; //Error index
-      if (typeof code === "number")
-        this.code = code;
+    function get() {
+      return column.data;
+    }
+    function query(name, value) {
+      var pos = column.data.indexOf(name);
+      //return pos;
+      if (pos==-1)
+        return -1;
+      return data.filter(function(v){
+        return v[pos] == value;
+      }).map(function(v){
+        var o = {};
+        for (var i = 0; i < column.data.length; i++)
+          o[column.data[i]] = v[i];
+        return o;
+      });
     }
 
-    this.content = content.bind(this);
-    this.cookie = coockie.bind(this);
+    this.get = get.bind(this);
+    this.insert = insert.bind(this);
+    this.query = query.bind(this);
 
     return this;
   }
-  function content($data) {
-    data = $data;
+  function row() {
+    if (!!arguments)
+
+    this.data = Array.prototype.slice.call(arguments, 0);
+
+    return this;
   }
-  function send() {
-    response.writeHead(this.code, this.data);
-    response.end(data);
-  }
-  this.file = provide.bind(this, response);
-  this.header = header.bind(this);
-  this.content = content.bind(this);
-  this.send = send.bind(this);
+
+  this.table = table.bind(this);
+  this.row = row.bind(null);
 
   return this;
-}
+};
 
-
-//    'Set-Cookie': 'mycookie=test',
-//Reply with a requested resource
-function provide(response, filename) {
-    var parts, extension;
-
-    parts = filename.split(".");
-    extension = parts[parts.length-1];
-
-    response.writeHead(200, {"Content-Type": mimes[extension] || "text/plain"});
-    response.end(fs.readFileSync(filename));
-}
-/*
-function doGetRequest(request, response, information) {
-    var path, respond;
-
-    path = request.url;
-    respond = provide.bind(this, response);
-
-    if (request.url = "/")
-        respond("basic.html");
-}*/
-
-function eventStream(request, response) {
-    var timer, initialize, update;
-
-    initialize = function init() {
-        response.writeHead(200, {
-            "Content-Type": "text/event-stream",
-            "Cache-Control": "no-cache",
-            "Connection": "Keep-Alive"
-        });
-        request.connection.on("close", function() {
-            clearTimeout(timer);
-        });
-        bump("bump");
-    }
-
-    update = function bump(data, id) {
-        id = (id || (new Date()).toLocaleTimeString());
-
-        response.write("id: " + id + "\n");
-        response.write("data: " + data + "\n\n");
-
-        timer = setTimeout(bump.bind(this, data, id), 5 * 1000);
-    }
-}
+programs.forEach(function(value) {
+  exports[value] = global[value];
+});

@@ -1,245 +1,100 @@
-var http, fs, url, qs,
-    server, web, users, messages, mimes,
-    events, database, httpd;
-
-http = require("http")
-fs = require("fs")
-url = require("url")
-qs = require("querystring")
-
-server = http.createServer()
-
-(function configure() {
-  web = {}
-  users = messages = mimes = {}
-
-  web.service = {}
-
-  mimes.html = "text/html";
-  mimes.css = "text/css";
-  mimes.js = "text/javascript";
-
-  mimes.txt = "text/plain";
-
-  mimes.jpeg = "image/jpeg";
-  mimes.jpg = "image/jpeg";
-  mimes.ico = "image/x-icon";
-
-  mimes.form = "application/x-www-form-urlencoded"
-
-}());
-
-(function initialize() {
-  server.on("request", web.request)
-
-  database.enable("users");
-  database.enable("messages");
-
-  httpd.enable("login");
-
-  events.enable("news");
-
-  web.reserve(database)
-  web.reserve(httpd)
-  web.reserve(events)
-
-  server.listen(8000)
-}());
-
-web.reserve =  function(service) {}
-
-web.request = function(request, response){
-  var client, complete;
-
-
-  //Server Side Events
-  if (request.headers.accept &&
-      request.headers.accept == "text/event-stream")
-  {
-    events(request, response);
-  }
+var services, config;
+global.ports = {
+  telnet: null,
+  httpd: null,
+  smtp: null,
+  ftp: null,
+};
+//Parse arguments
+function identify(value) {
+  if (value.indexOf("=")!=-1)
+    config[value.split("=")[0]] = value.split("=")[1];
   else
+    config.flags.push(value);
+
+  config.flags = config.flags.filter(function(value, index, array) {
+    if (value.indexOf("-") == 0 &&
+        array.length > index + 1 &&
+        array[index+1].indexOf("-") != 0)
+    {
+      config[value] = array[index+1];
+      return false;
+    }
+    if (value.indexOf("-") != 0 &&
+        index > 0 &&
+        array[index-1].indexOf("-") == 0)
+      return false;
+
+    return true;
+  });
+
+  var keys = Object.keys(config);
+  for (var i = 0; i < keys.length; i++) {
+    if (!config.hasOwnProperty(keys[i]))
+      continue;
+    if (!keys[i].indexOf("--")==0)
+      continue;
+
+    config[keys[i].substring(2)] = config[keys[i]];
+    delete config[keys[i]];
+  }
+}
+function similar(value){
+  if (value.indexOf("-") == 0 && this.indexOf(value.substring(1)) != -1)
   {
-    client = new Client(complete, request);
+    return true;
   }
+  return false;
+}
+function setting(name) {
+  var result = [];
+  if (Object.keys(config).some(similar.bind(name)))
+    result = Object.keys(config).filter(similar.bind(name)).map(function(value){return config[value]});
 
-  complete = function() {
-  };
+  if (config.hasOwnProperty(name))
+    result.unshift(config[name]);
+
+  if (config.flags.some(similar.bind(name)))
+    result.unshift(true);
+
+  if (result.length > 0)
+    return result;
+
+  return false;
+}
+function $setting(name) {
+  var $s = setting(name);
+  if (!$s) return null;
+  if ($s.length>0&&$s[0]==true) return $s[1];
+  else return $s[0];
 }
 
-function Client(callback, request) {
-  var $get, $post, $cookie, $rest,
-      method, gatherk;
+//Handle configuration and prerequisites.
+(function configure() {
+  services = require("./services.js");
 
-  method = request.method.toLowerCase()
+  config = {flags: []};
 
-  uri = url.parse(request.url)
+  Array.prototype.forEach.call(arguments, identify);
 
-  $get = qs.parse(uri.query)
+  ports.telnet = $setting("telnet-port");
+  ports.httpd = $setting("httpd-port");
+}).apply(null, process.argv.slice(2));
 
+//Turn some gears...
+(function initialize() {
 
-  $cookie = cookies(request.storage.cookie)
+}).call(null);
 
-  $rest = restify(uri)
+//Modulation
+(function install() {
+}).call(null);
 
-  $post = {};
-
-  this.get = $get;
-  this.rest = $rest;
-  this.post = $post;
-  this.cookie = $cookie;
-  this.request = request;
-
-  (method == "post" && gather.call(this) || callback.call(this));
-
-  return this;
-
-  gather = function() {
-    var content;
-
-    content = "";
-
-    request.on("data", data);
-    request.on("end", end);
-
-    function data() {
-      content += arguments[0] || "";
-      if (content > 1e6)
-          request.connection.destroy();
-    }
-    function end() {
-      $post = qs.parse(content);
-
-      this.post = $post;
-
-      callback.call(this);
-    }
-  }
-}
-function cookies(data) {
-  var chef, baked, sale;
-
-  sale = {}
-
-  baked = data.split(";").map(chef)
-
-  chef = function(dough) {
-    var sheet, name, value;
-
-    sheet = dough.split("=");
-    name = sheet.shift().trim();
-    value = decodeURIComponent((sheet[0]||"").trim());
-
-    sale[name] = value;
-  }
-
-  return sale;
-}
-web.response = function() {
-  function header() {
-    this.data = {}
-    this.code = 200;
-    function content(ctype) {
-      data["Content-Type"] = ctype;
-
-      return this;
-    }
-    function cookie(name, value) {
-      var cook;
-
-      cook = name +"="+ encodeURIComponent(value.trim());
-
-      if (this.data.hasOwnProperty("Set-Cookie"))
-        data["Set-Cookie"] += "&" + cook;
-      else
-        data["Set-Cookie"] = cook;
-
-      return this;
-    }
-    function error(code) {
-      var ei; //Error index
-      ei = [
-        "informational",
-        "success",
-        "redirect",
-        "client",
-        "server"
-      ];
-      eiInfo = ["Continue", "Switching Protocols", "Processing"];
-      eiSuccess = ["OK",
-                   "Created",
-                   "Accepted",
-                   "Non-Authoritative Information",
-                   "No Content",
-                   "Reset Content",
-                   "Partial Content",
-                   "Multi-Status",
-                   "Already Reported",
-                   "IM Used"];
-      eiRedirect = ["Multiple Choicess];
-      eiClient = [];
-      eiServer = [];
-      if (typeof code === "number")
-        this.code = code;
-    }
-
-    this.content = content.bind(this);
-    this.cookie = coockie.bind(this);
-
-    return this;
-  }
-  function content() {
-  }
-}
-
-
-//    'Set-Cookie': 'mycookie=test',
-//Reply with a requested resource
-function provide(response, filename) {
-    var parts, extension;
-
-    parts = filename.split(".");
-    extension = parts[parts.length-1];
-
-    response.writeHead(200, {"Content-Type": mimes[extension] || "text/plain"});
-    response.end(fs.readFileSync(filename));
-}
-
-function doGetRequest(request, response, information) {
-    var path, respond;
-
-    path = request.url;
-    respond = provide.bind(this, response);
-
-    if (request.url = "/")
-        respond("basic.html");
-}
-
-function eventStream(request, response) {
-    var timer, initialize, update;
-
-    initialize = function init() {
-        response.writeHead(200, {
-            "Content-Type": "text/event-stream",
-            "Cache-Control": "no-cache",
-            "Connection": "Keep-Alive"
-        });
-        request.connection.on("close", function() {
-            clearTimeout(timer);
-        });
-        bump("bump");
-    }
-
-    update = function bump(data, id) {
-        id = (id || (new Date()).toLocaleTimeString());
-
-        response.write("id: " + id + "\n");
-        response.write("data: " + data + "\n\n");
-
-        timer = setTimeout(bump.bind(this, data, id), 5 * 1000);
-    }
-}
-
+//Start the services.
+(function finalize() {
+  services.httpd();
+  services.telnet();
+}).call(null);
 
 /*
 index.html
