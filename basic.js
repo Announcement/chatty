@@ -93,7 +93,9 @@ function $setting(name) {
 //Start the services.
 (function finalize() {
   services.httpd();
-  services.telnet();
+
+  /*telnet is disabled for maintenance.
+  services.telnet();//*/
 }).call(null);
 
 /*

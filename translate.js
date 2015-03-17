@@ -1,21 +1,33 @@
-exports.telnet = function(socket) {
-  socket.write("Hello, world!");
-  socket.on("data", function(data) {
-    socket.write(data.toString().toUpperCase().trim());
-  });
-  socket.on("close", function(e){
-    socket.destroy();
-  });
-  socket.on("error", function(e) {
-    console.error(e.toString());
-    socket.destroy();
-  });
-};
-exports.httpd = function(request, response) {
-  response.writeHead(200, {"Content-Type": "text/plain"});
-  response.end("Hello, world!");
-};
+var controller, cn, ch;
+
+controller = require("./controller.js");
+
+cn = new controller.net();
+ch = new controller.http();
+
 exports.port = function(name) {
   address = this.address();
   console.log("opened %j server on port %j", name, address.port);
+};
+
+exports.telnet = function(socket) {
+  cn.start(socket);
+
+  socket.on("data", function(data) {
+    cn.parse(socket, data.toString());
+  });
+  socket.on("close", function(e){
+    cn.close(socket);
+  });
+  socket.on("error", function(e) {
+    cn.close(socket);
+  });
+};
+
+exports.httpd = function(request, response) {
+  var book;
+
+  book = ch.create();
+  book.read(request);
+  book.write(response);
 };
