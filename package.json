@@ -1,0 +1,28 @@
+{
+  "name": "chatty",
+  "version": "1.0.0",
+  "description": "A chat application able to deploy and reuse in any environment.",
+  "main": "basic.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Announcement/chatty.git"
+  },
+  "author": "Announcement",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Announcement/chatty/issues"
+  },
+  "homepage": "https://github.com/Announcement/chatty",
+  "dependencies": {
+    "bower": "^1.3.12",
+    "express": "^4.12.0",
+    "grunt": "^0.4.5"
+  },
+  "engines": {
+    "node": "0.12.x"
+  }
+}
