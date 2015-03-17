@@ -5,7 +5,7 @@
   "main": "basic.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node basic.js --httpd-port=80 --telnet-port=3389"
   },
   "repository": {
     "type": "git",
