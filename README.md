@@ -25,5 +25,7 @@ The final product must be equally as __beautiful__ as the code.
 
 #elegant
 Easy to use by a beginner.
+
 Pleasing to use by an expert.
+
 ___Simple, vanilla, concise.___
