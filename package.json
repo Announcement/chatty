@@ -18,9 +18,6 @@
   },
   "homepage": "https://github.com/Announcement/chatty",
   "dependencies": {
-    "bower": "^1.3.12",
-    "express": "^4.12.0",
-    "grunt": "^0.4.5"
   },
   "engines": {
     "node": "0.12.x"
