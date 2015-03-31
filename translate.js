@@ -1,6 +1,7 @@
-var controller, cn, ch;
+var controller, cn, ch, cname;
 
-controller = require("./controller.js");
+cname = "./controller.js";
+controller = require(cname);
 
 cn = new controller.net();
 ch = new controller.http();
@@ -11,10 +12,10 @@ exports.port = function(name) {
 };
 
 exports.telnet = function(socket) {
-  cn.start(socket);
+  var client = new cn.start(socket);
 
   socket.on("data", function(data) {
-    cn.parse(socket, data.toString());
+    client.parse(data.toString());
   });
   socket.on("close", function(e){
     cn.close(socket);
@@ -26,6 +27,10 @@ exports.telnet = function(socket) {
 
 exports.httpd = function(request, response) {
   var book;
+
+  delete require.cache[require.resolve(cname)];
+  controller = require(cname);
+  ch = new controller.http();
 
   book = ch.create();
   book.read(request);

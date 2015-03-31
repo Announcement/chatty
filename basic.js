@@ -1,12 +1,14 @@
-var services, config, debug, experiments;
+var services, config, debug;
 global.ports = {
   telnet: null,
   httpd: null,
   smtp: null,
   ftp: null,
 };
+
 //Parse arguments
 function identify(value) {
+
   if (value.indexOf("=")!=-1)
     config[value.split("=")[0]] = value.split("=")[1];
   else
@@ -20,8 +22,8 @@ function identify(value) {
       config[value] = array[index+1];
       return false;
     }
-    if (value.indexOf("-") != 0 &&
-        index > 0 &&
+
+    if (value.indexOf("-") != 0 && index > 0 &&
         array[index-1].indexOf("-") == 0)
       return false;
 
@@ -32,13 +34,16 @@ function identify(value) {
   for (var i = 0; i < keys.length; i++) {
     if (!config.hasOwnProperty(keys[i]))
       continue;
+
     if (!keys[i].indexOf("--")==0)
       continue;
 
     config[keys[i].substring(2)] = config[keys[i]];
+
     delete config[keys[i]];
   }
 }
+
 function similar(value){
   if (value.indexOf("-") == 0 && this.indexOf(value.substring(1)) != -1)
   {
@@ -46,6 +51,7 @@ function similar(value){
   }
   return false;
 }
+
 function setting(name) {
   var result = [];
   if (Object.keys(config).some(similar.bind(name)))
@@ -62,98 +68,62 @@ function setting(name) {
 
   return false;
 }
+
 function $setting(name) {
   var $s = setting(name);
   if (!$s) return null;
   if ($s.length>0&&$s[0]==true) return $s[1];
   else return $s[0];
 }
+function close() {
+  console.log(arguments);
+  global.database.save();
+  process.exit();
+}
+
+
 
 //Handle configuration and prerequisites.
 (function configure() {
+  require("./database.js");
+
+  global.database.load();
+
   services = require("./services.js");
 
-  experiments = [];
   config = {flags: []};
 
   Array.prototype.forEach.call(arguments, identify);
 
-  ports.telnet = $setting("telnet-port");
-  ports.httpd = $setting("httpd-port");
+  if (-~config.flags.indexOf("-s"))
+  { ports.telnet = 23; ports.httpd = 80 }
+
+  ports.telnet = $setting("telnet-port") || ports.telnet;
+  ports.httpd = $setting("httpd-port") || ports.httpd;
+
   debug = !$setting("experiment");
 }).apply(null, process.argv.slice(2));
 
 //Turn some gears...
 (function initialize() {
-
 }).call(null);
 
 //Modulation
 (function install() {
-}).call(null);
-
-//Start the services.
-(function finalize() {
-  if (debug)
-    return experiment();
-
   services.httpd();
-
-  /*telnet is disabled for maintenance.
-  services.telnet();//*/
+  services.telnet();
 }).call(null);
 
-function prepare(){
-experiments.push(function(){
-  console.log("Running database test: ");
-  var db, ri, table, ur;
+(function finalize() {
+  process.on('exit', close.bind(null));
+  process.on('SIGINT', close.bind(null));
+  process.on('uncaughtException', close.bind(null));
+}).call(null);
 
-  try {
-    db = new database();
-    console.log("Database created successfully.");
-  }
-  catch(e){ throw "Couldn't instantiate database"}
 
-  try{
-    ri = new db.row("username", "password");
-  }catch(e){ throw "Couldn't create row:index"}
 
-  try{
-    table = new db.table(ri);
-    console.log("Database table created sucessfully.");
-  }catch(e){ throw "Couldn't create a new table";}
+process.stdin.resume();
 
-  try{
-    ur = new db.row("scientist", "theoretical");
-    table.insert(ur);
-    console.log("Sucessful table insert completed.");
-  }catch(e){
-    throw "Inserting row into database not allowed."
-  }
-  try
-  {console.log(table.query("username","scientist"));}
-  catch(e){
-    throw "Something went wrong attempting to query the database."}
-
-  console.log("Benchmarking database access.");
-
-  table = new db.table(new db.row("id", "seed"));
-
-  for (var i = Math.pow(10, 6); i--; table.insert(ur))
-       ur = new db.row(i, Math.floor(Math.random() * i));
-
-});
-}
-function experiment() {
-  prepare();
-  for (var test in experiments) {
-    try {
-      experiments[test].call(null);
-    } catch(e) {
-      console.error(e.toString());
-    }
-  }
-}
 /*
 index.html
 admin.html
