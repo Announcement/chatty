@@ -1,0 +1,28 @@
+{
+	"users": {
+		"username": {
+			"id": "4a8846c1",
+			"hash": "d51c9a7e9353746a6020f9602d452929"
+		}
+	},
+	"messages": [
+		{
+			"name": "username",
+			"time": 1428188839415,
+			"channel": "global",
+			"message": "hello, world!"
+		},
+		{
+			"name": "username",
+			"time": 1428188856203,
+			"channel": "global",
+			"message": "hi"
+		},
+		{
+			"name": "username",
+			"time": 1428188872937,
+			"channel": "global",
+			"message": "hello"
+		}
+	]
+}

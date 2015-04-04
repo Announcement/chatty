@@ -1,10 +1,11 @@
-loading = false;
 var out, button, $, request, cookies, ident, last;
 
 $ = document.querySelector.bind(document);
 
 out = $("#output");
 button = $("button");
+
+loading = false;
 
 cookies = new Bakery();
 
@@ -83,11 +84,26 @@ function update() {
 function Chat() {
   this.position = 0;
 
+  try {
+    var p = localStorage.read;
+
+    if (p.length > 0 && this.position === 0)
+      this.position = parseInt(p);
+
+  }catch(e){
+    console.log(e);
+  }
+
   function read(logs) {
     logs = JSON.parse(logs);
+
     this.position += logs.length;
+
     if (logs.length > 0)
+    {
+      localStorage.read = this.position;
       print(logs);
+    }
   }
   function print(logs) {
     for (var key in logs)
@@ -117,7 +133,7 @@ function Chat() {
 
     while (g = url.exec(m))
       s = s.replace(g[0],
-        '<a href="' + g[0] + '">' + g[2] + ": " + last(g[0].split("/"))+ '</a>');
+        '<a href="' + g[0] + '">' + last(g[2].split(".")) + ": " + last(g[0].split("/"))+ '</a>');
 
     while (g = email.exec(m))
       s = s.replace(g[0],
@@ -138,7 +154,6 @@ function Chat() {
     console.log(m);
 
     nt = document.createTextNode("@%s ".format(packet.name));
-    //tm = document.createTextNode(" " + fancy(packet.message));
 
     un = document.createElement("span");
     item = document.createElement("li");
@@ -146,7 +161,6 @@ function Chat() {
     un.appendChild(nt);
     item.appendChild(un);
     item.innerHTML += fancy(packet.message);
-    //item.appendChild(tm);
 
     if (list.children.length > 0)
       list.insertBefore(item, list.firstChild);

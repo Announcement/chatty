@@ -1,7 +1,7 @@
 var modules = ["fs", "http", "net", "url", "querystring", "crypto"],
     servers = {}, normalize, mimes;
 
-var path = process.cwd() + "/branch";
+var path = process.cwd();
 mimes = {
   "txt": "text/plain",
   "js": "text/javascript",
@@ -95,8 +95,6 @@ function account(username, password, id) {
 
     user = {
       id: id,
-      name: username,
-      pass: password,
       hash: token
     };
 
@@ -132,13 +130,15 @@ function addFileName(name) {
   files[name] = mimes[e];
 }
 
-function cache(file) {
+function cache(file, reason) {
   if (!fs.existsSync(file))
     return "false";
 
   addFileName(file);
 
   fcache[file] = fs.readFileSync(file, "utf8");
+
+  console.log("Loaded %s into cache for %s".format(file, reason));
 
   if (Object.keys(fcache).length > 8)
     delete fcache[Object.keys(fcache)[0]];
@@ -149,20 +149,22 @@ function getFile(file) {
     return "false";
 
   if (Object.keys(fcache) == -1)
-    cache(file);
+    cache(file, "request");
 
   return fcache[file];
 }
 
 fs.readdir(path, function(a, b) {
-  //... caches ...//
-  if(a) return ( a );
-  b.forEach( cache );
+  //... caches  ...//
+  if (a) return ( a );
+  b.forEach(g);
+
+  function g(a){cache(a,"construction");}
 });
 fs.watch(path, function(a, b) {
   //... updates ...//
 
-  cache(b);
+  cache(b, "update");
 });
 
 
@@ -220,7 +222,7 @@ servers.httpd = function(request, response) {
     headers["Content-Type"] = "text/plain";
 
     if (disk(path.substring(1)) === true)
-      console.log("Served file: " + origin);
+    {}//console.log("Served file: " + origin);
     else if (path == "/favicon.ico")
       return response.end() && false;
     else if (path == "/query")
@@ -293,7 +295,7 @@ function close() {
 
     save = JSON.stringify(save, null, "\t");
 
-    //fs.writeFileSync(path + "/betadb.dat", save);
+    fs.writeFileSync(path + "/betadb.dat", save);
   }
   console.log(this, arguments);
   process.exit(1);

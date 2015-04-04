@@ -37,7 +37,12 @@ form input {
   line-height: 23px;
   padding: 3px;
   margin: 6px 20px;
+  font: 14px Verdana,sans-serif;
+  letter-spacing: 1px;
 }
+input[type=password]{
+  -webkit-text-security: disc;
+ }
 form button {
   height: 23px;
   padding: 3px;

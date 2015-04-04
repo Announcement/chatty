@@ -1,0 +1,47 @@
+<head>
+    <meta charset="utf8">
+    <title>beta</title>
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="beta.css" />
+
+    <meta name="author" content="">
+    <meta name="keywords" content="chatty, github, communications, framework, open source">
+    <meta name="description" content="A chat application able to deploy and reuse in any environment.">
+    <meta name="copyright" content="Likd Corporations">
+
+    <meta name="revised" content="Satuday, April 4th, 2015, 6:06 pm">
+    <meta name="classification" content="Development">
+    <meta name="reply-to" content="substituteuser@hotmail.com">
+    <meta name="pagename" content="beta">
+    <meta name="application-name" content="chatty">
+
+
+    <script type="text/javascript" src="cookies.js"></script>
+    <script type="text/javascript" src="beta.fish.js"></script>
+</head>
+<!--body onload="optimize(document.forms.account)"-->
+<body>
+    <h1>beta</h1>
+    <form name=user method=POST action="query">
+        <label for="name">username</label>
+        <input name=name placeholder="username" autofocus
+               pattern="^[A-Za-z][A-Za-z0-9_]{1,15}$" minlength=2 maxlength=16>
+
+        <label for=password>password</label>
+        <input name=password type=password pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$"
+               minlength=6 placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+
+        <button name=action>verify</button>
+    </form>
+    <form name=chat method=POST action="query">
+        <label for=message>message</label>
+        <input name=message placeholder="Hello, world!" required
+               minlength=1 maxlength=160>
+
+        <button name=action>send</button>
+    </form>
+
+    <p id="output">loading...</p>
+    <script type="text/javascript" src="beta.particle.js"></script>
+</body>

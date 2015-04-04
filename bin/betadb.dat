@@ -11,6 +11,10 @@
 			"name": "anonymous",
 			"pass": "",
 			"hash": "294de3557d9d00b3d2d8a1e6aab028cf"
+		},
+		"friend": {
+			"id": "4a8846c1",
+			"hash": "72fdc45c165cf8879cc4b4e90d282d6d"
 		}
 	},
 	"messages": [
@@ -181,6 +185,72 @@
 			"time": 1428166177370,
 			"channel": "global",
 			"message": "announcement@github.com"
+		},
+		{
+			"name": "root",
+			"time": 1428168101641,
+			"channel": "global",
+			"message": "hi"
+		},
+		{
+			"name": "root",
+			"time": 1428168107573,
+			"channel": "global",
+			"message": "what's up, doc?"
+		},
+		{
+			"name": "root",
+			"time": 1428168120200,
+			"channel": "global",
+			"message": "Hi, I am root."
+		},
+		{
+			"name": "root",
+			"time": 1428168190258,
+			"channel": "global",
+			"message": ">beta.js chat html complete."
+		},
+		{
+			"name": "root",
+			"time": 1428168241906,
+			"channel": "global",
+			"message": "#Beta #excited @Announcement fork us at"
+		},
+		{
+			"name": "root",
+			"time": 1428168259509,
+			"channel": "global",
+			"message": "https://www.github.com/Announcement/chatty"
+		},
+		{
+			"name": "anonymous",
+			"time": 1428170212841,
+			"channel": "global",
+			"message": "swag"
+		},
+		{
+			"name": "root",
+			"time": 1428171397678,
+			"channel": "global",
+			"message": "what's this?"
+		},
+		{
+			"name": "root",
+			"time": 1428171403841,
+			"channel": "global",
+			"message": "hello, world!"
+		},
+		{
+			"name": "root",
+			"time": 1428171863975,
+			"channel": "global",
+			"message": "hi"
+		},
+		{
+			"name": "friend",
+			"time": 1428171881077,
+			"channel": "global",
+			"message": "hi"
 		}
 	]
 }
