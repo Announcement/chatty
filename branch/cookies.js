@@ -153,17 +153,17 @@ try {
   exports.Bakery = Bakery;
   exports.flatten = flatten;
 } catch(e) {
-  console.warn("Couldn't bind {name} to %s.".format(mod, "exports"));
+  //console.warn("Couldn't bind {name} to %s.".format(mod, "exports"));
 }
 try {
   window.Bakery = Bakery;
   window.flatten = flatten;
 } catch(e) {
-  console.warn("Couldn't bind {name} to %s.".format(mod, "window"));
+  //console.warn("Couldn't bind {name} to %s.".format(mod, "window"));
 }
 try {
   global.Bakery = Bakery;
   global.flatten = queryify;
 } catch(e) {
-  console.warn("Couldn't bind {name} to %s.".format(mod, "global"));
+  //console.warn("Couldn't bind {name} to %s.".format(mod, "global"));
 }
