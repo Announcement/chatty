@@ -1,0 +1,71 @@
+html,
+body {
+  height: 100%;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 500px;
+  width: 800px;
+  margin: 50px auto;
+  position: relative;
+}
+h1 {
+  text-align: center;
+  font-size: 42px;
+  padding: 32px;
+}
+form {
+  width: 500px;
+  margin: 0 auto;
+}
+form label {
+  font-size: 16px;
+  font-family: sans-serif;
+  line-height: 23px;
+  display: inline-block;
+  width: 150px;
+  text-align: right;
+
+}
+form input {
+  display: inline-block;
+  height: 23px;
+  width: 250px;
+  line-height: 23px;
+  padding: 3px;
+  margin: 6px 20px;
+}
+form button {
+  height: 23px;
+  padding: 3px;
+  width: 40px;
+}
+p {
+  text-indent: 2em;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: justify;
+  font-size: 16px;
+  padding: 1em;
+  font-family: sans-serif;
+  display: none;
+}
+li {
+  list-style-type: none;
+  margin: 0px 120px;
+  padding: 0px 24px;
+  line-height: 23px;
+  display: block;
+  font-size: 16px;
+}
+.username {
+  color: blue;
+}
+ul {
+  height: 256px;
+  overflow: hidden;
+  margin-top: 30px;
+}

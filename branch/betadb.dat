@@ -1,0 +1,90 @@
+{
+	"users": {
+		"root": {
+			"id": "4a8846c1",
+			"name": "root",
+			"pass": "pass",
+			"hash": "f11536bee899541aa233f5c0aa98f625"
+		}
+	},
+	"messages": [
+		{
+			"name": "root",
+			"time": 1428128464262,
+			"channel": "global",
+			"message": "hi friend."
+		},
+		{
+			"name": "root",
+			"time": 1428128570869,
+			"channel": "global",
+			"message": "hi"
+		},
+		{
+			"name": "root",
+			"time": 1428128701374,
+			"channel": "global",
+			"message": "hello!"
+		},
+		{
+			"name": "root",
+			"time": 1428128741823,
+			"channel": "global",
+			"message": "what's up?"
+		},
+		{
+			"name": "root",
+			"time": 1428129060262,
+			"channel": "global",
+			"message": "not much, you?"
+		},
+		{
+			"name": "root",
+			"time": 1428129089772,
+			"channel": "global",
+			"message": "uhm.."
+		},
+		{
+			"name": "root",
+			"time": 1428129537614,
+			"channel": "global",
+			"message": "hello."
+		},
+		{
+			"name": "root",
+			"time": 1428129541054,
+			"channel": "global",
+			"message": "hey"
+		},
+		{
+			"name": "root",
+			"time": 1428129546117,
+			"channel": "global",
+			"message": "what are you up to?"
+		},
+		{
+			"name": "root",
+			"time": 1428129550913,
+			"channel": "global",
+			"message": "not much,and you?"
+		},
+		{
+			"name": "root",
+			"time": 1428129609227,
+			"channel": "global",
+			"message": "no more gay overflow."
+		},
+		{
+			"name": "root",
+			"time": 1428129616553,
+			"channel": "global",
+			"message": "it loooks much, much better."
+		},
+		{
+			"name": "root",
+			"time": 1428129626560,
+			"channel": "global",
+			"message": "I think I'm satisfied, how about you?"
+		}
+	]
+}

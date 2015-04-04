@@ -1,11 +1,11 @@
 {
   "name": "chatty",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "A chat application able to deploy and reuse in any environment.",
   "main": "basic.js",
   "scripts": {
     "test": "node basic.js --experiment",
-    "start": "node basic.js --httpd-port=80 --telnet-port=3389"
+    "start": "node branch/beta --httpd-port=80 --telnet-port=3389"
   },
   "repository": {
     "type": "git",
