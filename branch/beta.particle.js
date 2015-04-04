@@ -44,6 +44,7 @@ document.forms.chat.addEventListener("submit", function(e) {
 
   request = new Request("/query");
   message = document.forms.chat.message.value.trim();
+  message = strip_tags(message);
 
   if (message <= 1 || message.length > 140)
     return false;
@@ -51,7 +52,7 @@ document.forms.chat.addEventListener("submit", function(e) {
   request.prepare({
     id: ident,
     name: document.forms.user.name.value,
-    message: document.forms.chat.message.value,
+    message: message,
     action: "send"
   });
 
@@ -93,20 +94,59 @@ function Chat() {
       if (logs.hasOwnProperty(key))
         show(logs[key]);
   }
+  function last(a) {
+    return a.length > 0 && a[a.length - 1] || "";
+  }
+  function fancy(m) {
+    var hashtag, atsign, url, email;
+
+    hashtag = /(^|\W)#([a-z\d_][\w-]*)/gi;
+    atsign = /(^|\W)@([a-z\d_][\w-]*)/gi;
+    url = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})([\/\w \.-]*)*\/?$/g;
+    email = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/g;
+
+    m = strip_tags(m);
+
+    var s = m, g;
+
+    while (g = hashtag.exec(m))
+      s = s.replace(g[0], '<a href="#' + g[2] + '" class="hashtag">' + g[0] + '</a>');
+
+    while (g = atsign.exec(m))
+      s = s.replace(g[0], '<span class="atsign">' + g[0] + '</span>');
+
+    while (g = url.exec(m))
+      s = s.replace(g[0],
+        '<a href="' + g[0] + '">' + g[2] + ": " + last(g[0].split("/"))+ '</a>');
+
+    while (g = email.exec(m))
+      s = s.replace(g[0],
+        '<a href="mailto:' + g[0] + '">' + g[0] + '</a>');
+
+    m = s;
+
+    if (m.indexOf(">") == 0)
+      m = '<span class="greentext">' + m + '</span>';
+
+    return m;
+  }
   function show(packet) {
     var item, text, m, un, nt, tm;
 
-    m = "@%s %s".format(packet.name, packet.message);
+    m = "@%s %s".format(packet.name, strip_tags(packet.message));
 
-    nt = document.createTextNode("@" + packet.name);
-    tm = document.createTextNode(" " + packet.message);
+    console.log(m);
+
+    nt = document.createTextNode("@%s ".format(packet.name));
+    //tm = document.createTextNode(" " + fancy(packet.message));
 
     un = document.createElement("span");
     item = document.createElement("li");
     un.setAttribute("class", "username");
     un.appendChild(nt);
     item.appendChild(un);
-    item.appendChild(tm);
+    item.innerHTML += fancy(packet.message);
+    //item.appendChild(tm);
 
     if (list.children.length > 0)
       list.insertBefore(item, list.firstChild);

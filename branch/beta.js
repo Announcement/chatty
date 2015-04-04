@@ -119,7 +119,7 @@ db.parse = function(q, c) {
   }
   return c.find("identity");
 }
-var files = {};
+var files = {}, fcache = {};
 
 function addFileName(name) {
   var e;
@@ -132,9 +132,39 @@ function addFileName(name) {
   files[name] = mimes[e];
 }
 
-addFileName("minimal.html");
-addFileName("cookies.js");
-(["beta.html", "beta.css", "beta.fish.js", "beta.particle.js"]).forEach(addFileName);
+function cache(file) {
+  if (!fs.existsSync(file))
+    return "false";
+
+  addFileName(file);
+
+  fcache[file] = fs.readFileSync(file, "utf8");
+
+  if (Object.keys(fcache).length > 8)
+    delete fcache[Object.keys(fcache)[0]];
+}
+
+function getFile(file) {
+  if (!fs.existsSync(file))
+    return "false";
+
+  if (Object.keys(fcache) == -1)
+    cache(file);
+
+  return fcache[file];
+}
+
+fs.readdir(path, function(a, b) {
+  //... caches ...//
+  if(a) return ( a );
+  b.forEach( cache );
+});
+fs.watch(path, function(a, b) {
+  //... updates ...//
+
+  cache(b);
+});
+
 
 servers.telnet = function(socket) {
   socket.pipe(socket);
@@ -162,7 +192,7 @@ servers.httpd = function(request, response) {
       if (fs.existsSync(folder[spot])) {
         origin = folder[spot];
         headers["Content-Type"] = files[path];
-        standards = fs.readFileSync(folder[spot], "utf8");
+        standards = getFile(path);
 
         return true;
       }
@@ -263,8 +293,9 @@ function close() {
 
     save = JSON.stringify(save, null, "\t");
 
-    fs.writeFileSync(path + "/betadb.dat", save);
+    //fs.writeFileSync(path + "/betadb.dat", save);
   }
+  console.log(this, arguments);
   process.exit(1);
 }
 (function load() {

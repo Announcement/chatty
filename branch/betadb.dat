@@ -5,6 +5,12 @@
 			"name": "root",
 			"pass": "pass",
 			"hash": "f11536bee899541aa233f5c0aa98f625"
+		},
+		"anonymous": {
+			"id": "4a8846c1",
+			"name": "anonymous",
+			"pass": "",
+			"hash": "294de3557d9d00b3d2d8a1e6aab028cf"
 		}
 	},
 	"messages": [
@@ -85,6 +91,96 @@
 			"time": 1428129626560,
 			"channel": "global",
 			"message": "I think I'm satisfied, how about you?"
+		},
+		{
+			"name": "root",
+			"time": 1428163096119,
+			"channel": "global",
+			"message": "how does this thing work?"
+		},
+		{
+			"name": "root",
+			"time": 1428163104475,
+			"channel": "global",
+			"message": "woah, thats freak'n amazing!"
+		},
+		{
+			"name": "root",
+			"time": 1428163109080,
+			"channel": "global",
+			"message": "uhm..."
+		},
+		{
+			"name": "root",
+			"time": 1428163115076,
+			"channel": "global",
+			"message": "hi"
+		},
+		{
+			"name": "anonymous",
+			"time": 1428163145869,
+			"channel": "global",
+			"message": "hi"
+		},
+		{
+			"name": "root",
+			"time": 1428163285128,
+			"channel": "global",
+			"message": "hi!"
+		},
+		{
+			"name": "root",
+			"time": 1428163299705,
+			"channel": "global",
+			"message": "woah!"
+		},
+		{
+			"name": "root",
+			"time": 1428163897623,
+			"channel": "global",
+			"message": "@anonymous #salute friend"
+		},
+		{
+			"name": "root",
+			"time": 1428164312102,
+			"channel": "global",
+			"message": ">implying vlad"
+		},
+		{
+			"name": "root",
+			"time": 1428164820229,
+			"channel": "global",
+			"message": "<br />uhm..."
+		},
+		{
+			"name": "root",
+			"time": 1428164833589,
+			"channel": "global",
+			"message": "<a> href</a>bump"
+		},
+		{
+			"name": "root",
+			"time": 1428164927736,
+			"channel": "global",
+			"message": "<span>hi</span>"
+		},
+		{
+			"name": "root",
+			"time": 1428164990633,
+			"channel": "global",
+			"message": "<what>what</what>"
+		},
+		{
+			"name": "root",
+			"time": 1428165379831,
+			"channel": "global",
+			"message": "http://stackoverflow.com/questions/17864482/javascript-regex-searching-for-hashtags"
+		},
+		{
+			"name": "root",
+			"time": 1428166177370,
+			"channel": "global",
+			"message": "announcement@github.com"
 		}
 	]
 }

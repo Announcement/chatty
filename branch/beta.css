@@ -64,8 +64,18 @@ li {
 .username {
   color: blue;
 }
+a:active, a:visited, a { color: purple; }
+a:hover  { text-decoration: underline; }
+a { text-decoration: none; font-weight: bold; }
 ul {
   height: 256px;
   overflow: hidden;
   margin-top: 30px;
+}
+.greentext {
+  color: green;
+}
+.atsign {
+  color: #777;
+  font-family: serif;
 }

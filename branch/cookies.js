@@ -80,15 +80,18 @@ String.prototype.format = function() {
     if (typeof value == "string")
       s = s.replace(/%-?\d*s/, value);
 
-    if (typeof value == "object")
+    if (typeof value == "object") {
+      var t = s;
       if (value instanceof Array)
-        for (var m, i = 0, val; m = rxa.exec(s); s = s.replace(m[0], val))
-          val = (m[1].length > 0) ? parseInt(value[m[1]], 10) : value[i++];
+        for (var m, i = 0, t = s, v; m = rxa.exec(s); t = t.replace(m[0], v))
+          v = (m[1].length > 0) ? value[parseInt(m[1])] : value[i++];
       else
-        for (var m, v = value; m = rxo.exec(s); s = s.replace(m[0], v))
-          for (var g=m[1].split("."),i=0;v&&v.hasOwnProperty(g[i]); v = v[g[i++]]);
+        for (var m, v, t = s; m = rxo.exec(s); t = t.replace(m[0], v))
+          for (var g = m[1].split("."), i = 0, v = value;
+               v && v.hasOwnProperty(g[i]); v = v[g[i++]]);
+      s = t;
+    }
   });
-
   return s;
 };
 Object.defineProperty(String.prototype, "format", {enumerable: false});
