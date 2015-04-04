@@ -1,7 +1,7 @@
 var modules = ["fs", "http", "net", "url", "querystring", "crypto"],
     servers = {}, normalize, mimes;
 
-var path = process.cwd();
+var path = process.cwd() + "/branch";
 mimes = {
   "txt": "text/plain",
   "js": "text/javascript",
