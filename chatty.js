@@ -1,1 +1,1 @@
-require("./parameter.js");
+require("./bin/parameter.js");
