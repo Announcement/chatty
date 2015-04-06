@@ -149,9 +149,7 @@ JSON.flatten = function (object) {
   
   param._ = stray;
 
-  this.params = param;
-
-  console.log(param);
+  global.params = param;
 }).apply(global || window || exports || null, (process || {
   argv: []
 }).argv);
