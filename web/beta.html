@@ -1,3 +1,5 @@
+
+<html>
 <head>
     <meta charset="utf8">
     <title>beta</title>
@@ -32,16 +34,17 @@
         <input name=password type=password pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$"
                minlength=6 placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
 
-        <button name=action>verify</button>
+        <button name=action value="login">verify</button>
     </form>
     <form name=chat method=POST action="query">
         <label for=message>message</label>
         <input name=message placeholder="Hello, world!" required
                minlength=1 maxlength=160>
 
-        <button name=action>send</button>
+        <button name=action value="send">send</button>
     </form>
 
     <p id="output">loading...</p>
     <script type="text/javascript" src="beta.particle.js"></script>
 </body>
+</html>

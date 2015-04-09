@@ -96,7 +96,18 @@ String.prototype.format = function() {
 };
 Object.defineProperty(String.prototype, "format", {enumerable: false});
 
+Object.prototype.pair = function(string) {
+  if (!(typeof this == "object" && !(this instanceof Array)))
+    return this;
+  var keys, $this;
+  keys = Object.keys(this);
+  $this = this;
+  return keys.map(function(key) {
+    return string.format(key, $this[key]);
+  });
+};
 
+Object.defineProperty(Object.prototype, "pair", {enumerable: false});
 function flatten(a) {
   var b, c, d, e;
 

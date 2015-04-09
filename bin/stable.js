@@ -158,7 +158,7 @@ fs.readdir(path, function(a, b) {
   //... caches  ...//
   if (a) return ( a );
   b.forEach(g);
-
+console.log("readdir", b);
   function g(a){cache(a,"construction");}
 });
 fs.watch(path, function(a, b) {
@@ -220,13 +220,14 @@ servers.httpd = function(request, response) {
 
     headers["Set-Cookie"] = cookies.gather();
     headers["Content-Type"] = "text/plain";
-
+    console.log(r.post);
     if (disk(path.substring(1)) === true)
     {}//console.log("Served file: " + origin);
     else if (path == "/favicon.ico")
       return response.end() && false;
     else if (path == "/query")
-      standards = db.parse(query, cookies); //cookies.find("identity");
+      standards = db.parse(query, cookies);
+    //cookies.find("identity");
     else
       standards = (new Human(condition)).greet;
 

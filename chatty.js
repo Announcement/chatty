@@ -14,6 +14,7 @@ modules.forEach(function(a) {
 
 //Utility includes.
 require("./bin/parameter.js");
+require("./bin/pseudo.js");
 require("./web/cookies.js");
 
 //Programatic includes.

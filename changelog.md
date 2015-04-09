@@ -1,4 +1,4 @@
-#Beta.js (stable.js v1.1)
+# stable.js (one.one)
 
 - no arguments
 - simple json.db for persistent storage.
@@ -8,7 +8,7 @@
 - organized files, terrible codel
 - chat was decent, had good tracking, fixed to 256 messages.
 
-# Original (unreleased)
+# basic.js (unreleased)
 
 - arguments
 - telnet and full-featured www.

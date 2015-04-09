@@ -134,7 +134,7 @@ JSON.flatten = function (object) {
     {
       arg = f(arg);
       if(arg.indexOf("=") != -1)
-        param[arg.split("=")[0]] = param[arg.split("=")[1]];
+        param[arg.split("=")[0]] = arg.split("=")[1];
       else
       if (args.length > 0 && args[0].indexOf("-") !== 0)
         param[arg] = args.shift();

@@ -3,6 +3,10 @@
 		"username": {
 			"id": "4a8846c1",
 			"hash": "d51c9a7e9353746a6020f9602d452929"
+		},
+		"root": {
+			"id": "b3121945c8b7cb5e2c984c9aee20616b",
+			"hash": "269c05a728ee05b3e68d380af1269974"
 		}
 	},
 	"messages": [
@@ -21,6 +25,18 @@
 		{
 			"name": "username",
 			"time": 1428188872937,
+			"channel": "global",
+			"message": "hello"
+		},
+		{
+			"name": "root",
+			"time": 1428530440219,
+			"channel": "global",
+			"message": "hi"
+		},
+		{
+			"name": "root",
+			"time": 1428530449570,
 			"channel": "global",
 			"message": "hello"
 		}
